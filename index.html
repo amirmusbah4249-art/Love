@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Will You Go On A Date With Me? 💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:'Poppins',system-ui,-apple-system,sans-serif;
+    background:linear-gradient(135deg,#1a0b2e,#3b0d54,#7b1f63,#c02e6e,#3b0d54);
+    background-size:400% 400%;
+    animation:bgShift 22s ease infinite;
+    color:#fff;
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:22px;
+    overflow-x:hidden;
+    position:relative;
+  }
+  @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  #hearts{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+  .heart{position:fixed;bottom:-70px;animation:floatUp linear infinite;will-change:transform}
+  @keyframes floatUp{to{transform:translateY(-118vh) rotate(360deg)}}
+
+  .card{
+    position:relative;z-index:2;width:100%;max-width:780px;
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:30px;
+    padding:clamp(24px,4.5vw,48px);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:0 34px 80px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.22);
+  }
+
+  .dots{display:flex;gap:8px;justify-content:center;margin-bottom:28px}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);transition:.45s cubic-bezier(.2,.8,.3,1)}
+  .dot.active{background:#ff5fa2;width:30px;border-radius:6px;box-shadow:0 0 16px #ff5fa2}
+
+  .step{display:none}
+  .step.active{display:block;animation:fadeUp .6s cubic-bezier(.2,.8,.3,1)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
+
+  .eyebrow{
+    text-align:center;font-size:.72rem;letter-spacing:4px;text-transform:uppercase;
+    opacity:.6;margin-bottom:14px;font-weight:400;
+  }
+  h1{
+    text-align:center;font-weight:700;line-height:1.25;
+    font-size:clamp(1.7rem,5.2vw,2.9rem);
+    background:linear-gradient(100deg,#fff,#ffd0e6,#ff8fc4,#fff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:200% auto;animation:shine 6s linear infinite;
+  }
+  @keyframes shine{to{background-position:200% center}}
+  .sub{text-align:center;opacity:.72;margin-top:14px;font-size:clamp(.9rem,2.6vw,1.05rem);font-weight:300}
+  .script{font-family:'Great Vibes',cursive;font-size:clamp(1.6rem,5vw,2.4rem);
+    text-align:center;margin-top:6px;color:#ffc2de;text-shadow:0 0 26px rgba(255,95,162,.55)}
+
+  .btn-row{display:flex;gap:22px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:40px;min-height:90px}
+  .btn{
+    border:none;cursor:pointer;font-family:inherit;font-weight:600;border-radius:999px;
+    display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+    transition:transform .4s cubic-bezier(.2,.9,.3,1.5),padding .4s ease,font-size .4s ease,
+               opacity .4s ease,box-shadow .35s ease,background .3s ease;
+  }
+  .btn-yes{
+    background:linear-gradient(135deg,#ff4d94,#ff2e63);color:#fff;
+    padding:16px 44px;font-size:1.15rem;
+    box-shadow:0 14px 34px rgba(255,46,99,.5);
+  }
+  .btn-yes:hover{box-shadow:0 20px 46px rgba(255,46,99,.72);transform:translateY(-3px)}
+  .btn-yes.yes-1{padding:19px 58px;font-size:1.42rem}
+  .btn-yes.yes-2{padding:23px 74px;font-size:1.72rem;box-shadow:0 22px 54px rgba(255,46,99,.72)}
+
+  .btn-no{
+    background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.45);
+    padding:16px 44px;font-size:1.15rem;
+  }
+  .btn-no:hover{background:rgba(255,255,255,.1)}
+  .btn-no.no-1{padding:12px 28px;font-size:.94rem;opacity:.85}
+  .btn-no.no-2{padding:8px 18px;font-size:.76rem;opacity:.55}
+  .btn-no.gone{opacity:0;transform:scale(.1) rotate(20deg);pointer-events:none}
+
+  .panel{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    border-radius:22px;padding:18px;margin-top:22px;
+  }
+  .panel-title{font-size:.78rem;letter-spacing:2.5px;text-transform:uppercase;opacity:.6;margin-bottom:12px}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .cal-head .m{font-weight:600;font-size:1.05rem}
+  .cal-nav{
+    width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:1rem;transition:.25s;
+  }
+  .cal-nav:hover:not(:disabled){background:rgba(255,255,255,.22);transform:scale(1.08)}
+  .cal-nav:disabled{opacity:.22;cursor:not-allowed}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .wd{text-align:center;font-size:.68rem;letter-spacing:1px;opacity:.5;padding:6px 0;text-transform:uppercase}
+  .day{
+    aspect-ratio:1/1;border-radius:13px;border:none;background:transparent;color:#fff;
+    cursor:pointer;font-family:inherit;font-size:.92rem;
+    display:flex;align-items:center;justify-content:center;transition:.22s;
+  }
+  .day:hover:not(:disabled){background:rgba(255,255,255,.16);transform:scale(1.1)}
+  .day:disabled{opacity:.2;cursor:not-allowed}
+  .day.today{border:1px solid rgba(255,255,255,.42)}
+  .day.sel{
+    background:linear-gradient(135deg,#ff4d94,#ff2e63);font-weight:700;transform:scale(1.08);
+    box-shadow:0 10px 26px rgba(255,46,99,.6);
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{
+    padding:11px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.07);color:#fff;cursor:pointer;font-family:inherit;
+    font-size:.88rem;transition:.25s;
+  }
+  .chip:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
+  .chip.sel{
+    background:linear-gradient(135deg,#ff4d94,#ff2e63);border-color:transparent;
+    box-shadow:0 10px 26px rgba(255,46,99,.55);font-weight:600;
+  }
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin-top:24px}
+  .pick{
+    text-align:left;padding:18px;border-radius:18px;cursor:pointer;font-family:inherit;color:#fff;
+    border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);
+    transition:.32s cubic-bezier(.2,.8,.3,1);display:flex;gap:14px;align-items:center;
+  }
+  .pick:hover{background:rgba(255,255,255,.14);transform:translateY(-4px);border-color:rgba(255,255,255,.38)}
+  .pick.sel{
+    background:linear-gradient(135deg,rgba(255,77,148,.4),rgba(255,46,99,.25));
+    border-color:#ff5fa2;transform:translateY(-4px);
+    box-shadow:0 16px 36px rgba(255,46,99,.4);
+  }
+  .pick .ico{font-size:1.75rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+  .pick .nm{font-weight:600;font-size:.98rem}
+  .pick .ds{font-size:.76rem;opacity:.62;margin-top:3px;font-weight:300;line-height:1.4}
+
+  .btn-next{
+    margin-top:30px;width:100%;padding:17px;border-radius:999px;border:none;cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:1.05rem;color:#fff;
+    background:linear-gradient(135deg,#ff4d94,#ff2e63);
+    box-shadow:0 16px 38px rgba(255,46,99,.45);
+    transition:.35s;opacity:.35;pointer-events:none;
+  }
+  .btn-next.on{opacity:1;pointer-events:auto}
+  .btn-next.on:hover{transform:translateY(-3px);box-shadow:0 22px 50px rgba(255,46,99,.65)}
+
+  .big-heart{font-size:clamp(3.5rem,12vw,5.5rem);text-align:center;animation:beat 1.4s ease-in-out infinite;
+    filter:drop-shadow(0 0 34px rgba(255,95,162,.75))}
+  @keyframes beat{0%,100%{transform:scale(1)}18%{transform:scale(1.16)}36%{transform:scale(1)}54%{transform:scale(1.1)}}
+  .summary{
+    margin-top:26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+    border-radius:20px;padding:22px;display:grid;gap:14px;
+  }
+  .row{display:flex;justify-content:space-between;gap:16px;font-size:.94rem;align-items:baseline}
+  .row .k{opacity:.58;font-weight:300;display:flex;gap:8px;align-items:center}
+  .row .v{font-weight:600;text-align:right}
+  .row .v.hot{color:#ff9ecd}
+  .btn-again{
+    margin-top:26px;width:100%;padding:15px;border-radius:999px;cursor:pointer;font-family:inherit;
+    font-weight:600;font-size:1rem;color:#fff;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.28);transition:.3s;
+  }
+  .btn-again:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+
+  @media(max-width:480px){
+    .btn-row{gap:14px}
+    .btn-yes{padding:14px 34px;font-size:1rem}
+    .btn-yes.yes-1{padding:16px 42px;font-size:1.2rem}
+    .btn-yes.yes-2{padding:19px 52px;font-size:1.42rem}
+    .btn-no{padding:14px 34px;font-size:1rem}
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div id="hearts"></div>
+
+<main class="card">
+  <div class="dots" id="dots"></div>
+
+  <section class="step active" id="step1">
+    <div class="eyebrow">I have something to ask you…</div>
+    <h1>Will you go on a date with me? 💖</h1>
+    <p class="sub">Take your time… but I already made a whole website for this 😌</p>
+    <div class="btn-row">
+      <button class="btn btn-yes" id="btnYes">Yes! 💖</button>
+      <button class="btn btn-no" id="btnNo">No</button>
+    </div>
+  </section>
+
+  <section class="step" id="step2">
+    <div class="eyebrow">Step 2 of 4</div>
+    <h1>When are you free? ⏰</h1>
+    <p class="sub">Pick a day and a time that feels good for you</p>
+
+    <div class="panel">
+      <div class="panel-title">Choose a day</div>
+      <div class="cal-head">
+        <button class="cal-nav" id="prevM">‹</button>
+        <div class="m" id="monthLabel"></div>
+        <button class="cal-nav" id="nextM">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Choose a time</div>
+      <div class="chips" id="timeChips"></div>
+    </div>
+
+    <button class="btn-next" id="next2">Continue →</button>
+  </section>
+
+  <section class="step" id="step3">
+    <div class="eyebrow">Step 3 of 4</div>
+    <h1>Which restaurant? 🍽️</h1>
+    <p class="sub">Some of the best places in Kabul — your pick 💫</p>
+    <div class="grid" id="restGrid"></div>
+  </section>
+
+  <section class="step" id="step4">
+    <div class="eyebrow">Step 4 of 4</div>
+    <h1>What would you like to eat? 🥘</h1>
+    <p class="sub">Order anything you want — tonight it's all about you</p>
+    <div class="grid" id="foodGrid"></div>
+  </section>
+
+  <section class="step" id="step5">
+    <div class="big-heart">💖</div>
+    <h1>Thank you for not saying no</h1>
+    <div class="script">You just made me the happiest person alive</div>
+    <p class="sub">I can't wait to see you. Here's our little plan:</p>
+
+    <div class="summary">
+      <div class="row"><span class="k">📅 Date</span><span class="v hot" id="sDate">—</span></div>
+      <div class="row"><span class="k">⏰ Time</span><span class="v hot" id="sTime">—</span></div>
+      <div class="row"><span class="k">🍽️ Restaurant</span><span class="v hot" id="sRest">—</span></div>
+      <div class="row"><span class="k">🥘 Food</span><span class="v hot" id="sFood">—</span></div>
+    </div>
+
+    <button class="btn-again" id="btnAgain">Yay! More hearts 🎉</button>
+  </section>
+</main>
+
+<script>
+(function(){
+  const layer = document.getElementById('hearts');
+  const emo = ['💖','💕','💗','🌸','✨','💞','🌹','💫'];
+  for(let i=0;i<24;i++){
+    const s = document.createElement('span');
+    s.className = 'heart';
+    s.textContent = emo[Math.floor(Math.random()*emo.length)];
+    s.style.left = (Math.random()*100)+'vw';
+    s.style.fontSize = (12+Math.random()*22)+'px';
+    s.style.animationDuration = (11+Math.random()*15)+'s';
+    s.style.animationDelay = (-Math.random()*22)+'s';
+    s.style.opacity = (0.18+Math.random()*0.45).toFixed(2);
+    layer.appendChild(s);
+  }
+})();
+
+const STEPS = ['step1','step2','step3','step4','step5'];
+let current = 0;
+
+const dotsBox = document.getElementById('dots');
+STEPS.forEach((_,i)=>{
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' active':'');
+  dotsBox.appendChild(d);
+});
+function updateDots(){
+  [...dotsBox.children].forEach((d,i)=> d.classList.toggle('active', i===current));
+}
+function goTo(i){
+  document.getElementById(STEPS[current]).classList.remove('active');
+  current = i;
+  document.getElementById(STEPS[current]).classList.add('active');
+  updateDots();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(i===4) burst();
+}
+
+const btnYes = document.getElementById('btnYes');
+const btnNo  = document.getElementById('btnNo');
+let noCount = 0;
+
+btnNo.addEventListener('click', () => {
+  noCount++;
+  if(noCount === 1){
+    btnNo.textContent = 'Are you sure?';
+    btnNo.classList.add('no-1');
+    btnYes.classList.add('yes-1');
+    btnYes.textContent = 'Yes!! 💖';
+  } else if(noCount === 2){
+    btnNo.textContent = 'Really? 🥺';
+    btnNo.classList.add('no-2');
+    btnYes.classList.add('yes-2');
+    btnYes.textContent = 'Yay! Yes! 💖';
+  } else {
+    btnNo.classList.add('gone');
+    btnYes.textContent = 'Yes! Forever 💖';
+  }
+});
+
+btnYes.addEventListener('click', () => goTo(1));
+
+const today = new Date(); today.setHours(0,0,0,0);
+let view = new Date(today.getFullYear(), today.getMonth(), 1);
+let selectedDate = null;
+let selectedTime = null;
+
+const monthLabel = document.getElementById('monthLabel');
+const calGrid    = document.getElementById('calGrid');
+const prevM      = document.getElementById('prevM');
+const nextM      = document.getElementById('nextM');
+const next2      = document.getElementById('next2');
+
+const TIMES = ['4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM'];
+
+function renderCalendar(){
+  const y = view.getFullYear(), m = view.getMonth();
+  monthLabel.textContent = view.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  calGrid.innerHTML = '';
+
+  ['S','M','T','W','T','F','S'].forEach(d=>{
+    const el = document.createElement('div');
+    el.className = 'wd'; el.textContent = d;
+    calGrid.appendChild(el);
+  });
+
+  const firstDow = new Date(y,m,1).getDay();
+  const daysIn   = new Date(y,m+1,0).getDate();
+
+  for(let i=0;i<firstDow;i++){
+    const blank = document.createElement('div');
+    calGrid.appendChild(blank);
+  }
+
+  for(let d=1; d<=daysIn; d++){
+    const date = new Date(y,m,d);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'day';
+    b.textContent = d;
+
+    if(date < today) b.disabled = true;
+    if(date.getTime() === today.getTime()) b.classList.add('today');
+    if(selectedDate && date.getTime() === selectedDate.getTime()) b.classList.add('sel');
+
+    b.addEventListener('click', ()=>{
+      selectedDate = date;
+      renderCalendar();
+      checkStep2();
+    });
+    calGrid.appendChild(b);
+  }
+
+  prevM.disabled = (y === today.getFullYear() && m === today.getMonth());
+}
+
+prevM.addEventListener('click', ()=>{ view.setMonth(view.getMonth()-1); renderCalendar(); });
+nextM.addEventListener('click', ()=>{ view.setMonth(view.getMonth()+1); renderCalendar(); });
+
+const chipsBox = document.getElementById('timeChips');
+TIMES.forEach(t=>{
+  const c = document.createElement('button');
+  c.type='button'; c.className='chip'; c.textContent = t;
+  c.addEventListener('click', ()=>{
+    selectedTime = t;
+    [...chipsBox.children].forEach(x=>x.classList.remove('sel'));
+    c.classList.add('sel');
+    checkStep2();
+  });
+  chipsBox.appendChild(c);
+});
+
+function checkStep2(){
+  next2.classList.toggle('on', !!(selectedDate && selectedTime));
+}
+
+next2.addEventListener('click', ()=> goTo(2));
+renderCalendar();
+
+const RESTAURANTS = [
+  {ico:'🏛️', nm:'Bāgh-e Bābur Restaurant', ds:'Garden view & classic Afghan dishes'},
+  {ico:'⭐', nm:'Kabul Star Restaurant',    ds:'Rooftop dining above the city'},
+  {ico:'🌙', nm:'Sham-e Kabul',             ds:'Cozy evenings & warm lights'},
+  {ico:'🎶', nm:'Sufi Restaurant',          ds:'Live music & traditional food'},
+  {ico:'🏔️', nm:'Afghan Village',           ds:'Rustic, home-style cooking'},
+  {ico:'🕌', nm:'Zarnegar Restaurant',      ds:'Elegant & refined flavors'},
+  {ico:'🍽️', nm:'Silk Road Bistro',         ds:'Modern twist on Afghan cuisine'},
+  {ico:'🌿', nm:'Herat Restaurant',         ds:'Authentic western-Afghan taste'}
+];
+
+let chosenRest = null;
+const restGrid = document.getElementById('restGrid');
+
+RESTAURANTS.forEach(r=>{
+  const b = document.createElement('button');
+  b.type='button'; b.className='pick';
+  b.innerHTML = `<span class="ico">${r.ico}</span>
+                 <span><span class="nm">${r.nm}</span><span class="ds">${r.ds}</span></span>`;
+  b.addEventListener('click', ()=>{
+    [...restGrid.children].forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+    chosenRest = r.nm;
+    setTimeout(()=> goTo(3), 480);
+  });
+  restGrid.appendChild(b);
+});
+
+const FOODS = [
+  {ico:'🍚', nm:'Kabuli Pulao',    ds:'Rice, raisins, carrots & tender lamb'},
+  {ico:'🥟', nm:'Mantu',           ds:'Steamed dumplings with yogurt sauce'},
+  {ico:'🥬', nm:'Ashak',           ds:'Leek dumplings, mint & garlic'},
+  {ico:'🍢', nm:'Chapli Kebab',    ds:'Spiced beef patties with pomegranate'},
+  {ico:'🍆', nm:'Borani Banjan',   ds:'Eggplant in tomato & yogurt'},
+  {ico:'🍗', nm:'Chicken Kebab',   ds:'Grilled, juicy & perfectly spiced'},
+  {ico:'🥘', nm:'Qorma-e-Lubia',   ds:'Slow-cooked beans with rich sauce'},
+  {ico:'🍮', nm:'Firni',           ds:'Sweet rose & cardamom pudding'}
+];
+
+let chosenFood = null;
+const foodGrid = document.getElementById('foodGrid');
+
+FOODS.forEach(f=>{
+  const b = document.createElement('button');
+  b.type='button'; b.className='pick';
+  b.innerHTML = `<span class="ico">${f.ico}</span>
+                 <span><span class="nm">${f.nm}</span><span class="ds">${f.ds}</span></span>`;
+  b.addEventListener('click', ()=>{
+    [...foodGrid.children].forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+    chosenFood = f.nm;
+    setTimeout(()=>{
+      document.getElementById('sDate').textContent =
+        selectedDate ? selectedDate.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) : '—';
+      document.getElementById('sTime').textContent = selectedTime || '—';
+      document.getElementById('sRest').textContent = chosenRest || '—';
+      document.getElementById('sFood').textContent = chosenFood || '—';
+      goTo(4);
+    }, 480);
+  });
+  foodGrid.appendChild(b);
+});
+
+function burst(){
+  const emo = ['💖','💕','✨','🌸','💗','💞','🎉'];
+  for(let i=0;i<46;i++){
+    const el = document.createElement('span');
+    el.textContent = emo[Math.floor(Math.random()*emo.length)];
+    el.style.cssText = 'position:fixed;left:50%;top:50%;pointer-events:none;z-index:99;'+
+                       'font-size:'+(14+Math.random()*22)+'px;'+
+                       'transition:transform 1.7s cubic-bezier(.2,.8,.3,1),opacity 1.7s ease;';
+    document.body.appendChild(el);
+    const ang = Math.random()*Math.PI*2;
+    const dist = 150 + Math.random()*420;
+    requestAnimationFrame(()=>{
+      el.style.transform = `translate(${Math.cos(ang)*dist}px, ${Math.sin(ang)*dist}px) rotate(${Math.random()*720-360}deg) scale(.3)`;
+      el.style.opacity = '0';
+    });
+    setTimeout(()=> el.remove(), 1800);
+  }
+}
+
+document.getElementById('btnAgain').addEventListener('click', burst);
+</script>
+</body>
+</html>
